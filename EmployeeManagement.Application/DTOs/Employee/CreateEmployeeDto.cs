@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Application.DTOs.Employee
 {
-    public class CreateEmployeeDto : BaseModelDto
+    public class CreateEmployeeDto : BaseModelDto, IEmployeDto
     {
         public int EmployeNumber { get; set; }
         public string FirstName { get; set; }

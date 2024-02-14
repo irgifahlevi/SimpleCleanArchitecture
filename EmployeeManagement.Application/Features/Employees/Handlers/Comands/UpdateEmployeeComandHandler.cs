@@ -2,7 +2,6 @@
 using EmployeeManagement.Application.DTOs.Employee.Validators;
 using EmployeeManagement.Application.Features.Employees.Requests.Comands;
 using EmployeeManagement.Application.Presistance.Contracts;
-using EmployeeManagement.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,27 +11,31 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 {
-    public class CreateEmployeeComandHandler : IRequestHandler<CreateEmployeeComand, int>
+    public class UpdateEmployeeComandHandler : IRequestHandler<UpdateEmployeeComand, Unit>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public CreateEmployeeComandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+        public UpdateEmployeeComandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
-        public async Task<int> Handle(CreateEmployeeComand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateEmployeeComand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateEmployeeDtoValidator();
+            var validator = new UpdateEmployeeDtoValidator();
             var validationResult = await validator.ValidateAsync(request.EmployeeDto);
-            if(validationResult == null) 
+            if (validationResult == null)
             {
                 throw new Exception();
             }
-            var employee = _mapper.Map<Employee>(request.EmployeeDto);
-            employee = await _employeeRepository.Add(employee);
-            return employee.Id;
+
+            var employeeId = await _employeeRepository.Get(request.EmployeeDto.Id);
+
+            _mapper.Map(request.EmployeeDto, employeeId);
+
+            await _employeeRepository.Update(employeeId);
+            return Unit.Value;
         }
     }
 }

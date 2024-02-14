@@ -1,5 +1,4 @@
-﻿using EmployeeManagement.Application.DTOs.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Application.DTOs.Employee
 {
-    public class EmployeeDto : BaseModelDto, IEmployeDto
+    public interface IEmployeDto
     {
         public int EmployeNumber { get; set; }
         public string FirstName { get; set; }
