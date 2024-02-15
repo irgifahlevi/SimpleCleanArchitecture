@@ -15,3 +15,4 @@ namespace EmployeeManagement.Application.Presistance.Contracts
         Task Update(T entity);
         Task Delete(T entity);
     }
+}
