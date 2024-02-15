@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,10 @@ namespace EmployeeManagement.Domain.Common
         public DateTime LastModifiedDate { get; set; }
         public string LastModifiedBy { get; set; }
         public int RowStatus { get; set; }
+
+        public virtual void SetRowStatus(EnumTypes values)
+        {
+            RowStatus = (short)values;
+        }
     }
 }
