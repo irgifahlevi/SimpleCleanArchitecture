@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Application.DTOs.Employee;
+using EmployeeManagement.Application.Response;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Application.Features.Employees.Requests.Comands
 {
-    public class CreateEmployeeComand : IRequest<int>
+    public class CreateEmployeeComand : IRequest<BaseComandResponse>
     {
         public CreateEmployeeDto EmployeeDto { get; set; }
     }
