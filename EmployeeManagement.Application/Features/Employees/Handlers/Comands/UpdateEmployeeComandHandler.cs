@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Application.DTOs.Employee.Validators;
+using EmployeeManagement.Application.Exceptions;
 using EmployeeManagement.Application.Features.Employees.Requests.Comands;
 using EmployeeManagement.Application.Presistance.Contracts;
+using EmployeeManagement.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,12 +27,18 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
         {
             var validator = new UpdateEmployeeDtoValidator();
             var validationResult = await validator.ValidateAsync(request.EmployeeDto);
-            if (validationResult == null)
+
+            if (validationResult.IsValid == false)
             {
-                throw new Exception();
+                throw new ValidationException(validationResult);
             }
 
             var employeeId = await _employeeRepository.Get(request.EmployeeDto.Id);
+
+            if(employeeId == null)
+            {
+                throw new NotFoundException(nameof(Employee), request.EmployeeDto.Id);
+            }
 
             _mapper.Map(request.EmployeeDto, employeeId);
 

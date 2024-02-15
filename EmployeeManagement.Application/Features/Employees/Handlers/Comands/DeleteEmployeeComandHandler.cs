@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using EmployeeManagement.Application.Exceptions;
 using EmployeeManagement.Application.Features.Employees.Requests.Comands;
 using EmployeeManagement.Application.Presistance.Contracts;
+using EmployeeManagement.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,11 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
         public async Task<Unit> Handle(DeleteEmployeeComand request, CancellationToken cancellationToken)
         {
             var employee = await _employeeRepository.Get(request.Id);
+
+            if(employee == null) 
+            {
+                throw new NotFoundException(nameof(Employee), request.Id);
+            }
 
             await _employeeRepository.Delete(employee);
 
