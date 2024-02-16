@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeeManagement.Application.Presistance.Contracts
+namespace EmployeeManagement.Application.Contracts.Presistance
 {
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {

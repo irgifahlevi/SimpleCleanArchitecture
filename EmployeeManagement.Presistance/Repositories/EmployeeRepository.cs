@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Application.Presistance.Contracts;
+﻿using EmployeeManagement.Application.Contracts.Presistance;
 using EmployeeManagement.Domain;
 using System;
 using System.Collections.Generic;

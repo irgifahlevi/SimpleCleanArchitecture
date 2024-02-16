@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Application.Presistance.Contracts;
+﻿using EmployeeManagement.Application.Contracts.Presistance;
 using EmployeeManagement.Presistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Application.Exceptions;
 using EmployeeManagement.Application.Features.Employees.Requests.Comands;
-using EmployeeManagement.Application.Presistance.Contracts;
+using EmployeeManagement.Application.Contracts.Presistance;
 using EmployeeManagement.Domain;
 using MediatR;
 using System;

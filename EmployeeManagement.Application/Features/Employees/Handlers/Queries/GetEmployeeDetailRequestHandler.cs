@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Application.DTOs.Employee;
 using EmployeeManagement.Application.Features.Employees.Requests.Queries;
-using EmployeeManagement.Application.Presistance.Contracts;
+using EmployeeManagement.Application.Contracts.Presistance;
 using MediatR;
 using System;
 using System.Collections.Generic;
