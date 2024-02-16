@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EmployeeManagement.Application.Contracts.Infastructure;
+using EmployeeManagement.Application.Models;
 
 namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 {
@@ -18,11 +20,13 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public CreateEmployeeComandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+        public CreateEmployeeComandHandler(IEmployeeRepository employeeRepository, IMapper mapper, IEmailSender emailSender)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
         public async Task<BaseComandResponse> Handle(CreateEmployeeComand request, CancellationToken cancellationToken)
         {
@@ -39,10 +43,27 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 
             var employee = _mapper.Map<Employee>(request.EmployeeDto);
             employee = await _employeeRepository.Add(employee);
-       
+
             response.Success = true;
             response.Message = "Created successfully!";
             response.Id = employee.Id;
+
+            var email = new Email()
+            {
+                To = "example@gmail.com",
+                Body = $"Your data has been success fully added {employee.FirstName} {employee.LastName}",
+                Subject = "Create new employee"
+            };
+
+            try
+            {
+                await _emailSender.SendEmail(email);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+
             return response;
         }
     }
