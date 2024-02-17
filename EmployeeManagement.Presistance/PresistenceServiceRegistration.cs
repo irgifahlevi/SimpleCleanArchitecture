@@ -13,12 +13,11 @@ namespace EmployeeManagement.Presistance
 {
     public static class PresistenceServiceRegistration
     {
-        private static string _connectionString;
         public static IServiceCollection ConfigurePresistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("EmployeeConnectionString");
+            var connectionString = configuration.GetConnectionString("EmployeeConnectionString");
             services.AddDbContext<EmployeeDbContext>(options => 
-                options.UseSqlServer(_connectionString));
+                options.UseSqlServer(connectionString));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 

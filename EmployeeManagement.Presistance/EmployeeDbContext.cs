@@ -16,7 +16,10 @@ namespace EmployeeManagement.Presistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EmployeeDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<Employee> Employees { get; set; }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries<BaseModel>())
@@ -33,6 +36,6 @@ namespace EmployeeManagement.Presistance
             }
             return base.SaveChangesAsync(cancellationToken);
         }
-        public DbSet<Employee> Employees { get; set; }
+        
     }
 }
