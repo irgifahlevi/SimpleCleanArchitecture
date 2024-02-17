@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EmployeeManagement.Application.Exceptions;
+using EmployeeManagement.Domain;
 
 namespace EmployeeManagement.Application.Features.Employees.Handlers.Queries
 {
@@ -23,7 +25,12 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Queries
         }
         public async Task<EmployeeDto> Handle(GetEmployeeDetailRequest request, CancellationToken cancellationToken)
         {
+
             var employeDetail = await _employeeRepository.Get(request.Id);
+            if (employeDetail == null)
+            {
+                throw new NotFoundException(nameof(Employee), request.Id);
+            }
             return _mapper.Map<EmployeeDto>(employeDetail);
         }
     }

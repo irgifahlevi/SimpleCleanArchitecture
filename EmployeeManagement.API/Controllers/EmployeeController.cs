@@ -22,7 +22,16 @@ namespace EmployeeManagement.API.Controllers
         public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployee()
         {
             var employee = await _mediator.Send(new GetEmployeeListRequest());
-            
+
+            return Ok(employee);
+        }
+
+        [HttpGet("{id}")]
+        //[Route("GetEmployeeId/{id}")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployeeId(int id)
+        {
+            var employee = await _mediator.Send(new GetEmployeeDetailRequest { Id = id });
+
             return Ok(employee);
         }
     }
