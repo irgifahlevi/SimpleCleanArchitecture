@@ -14,8 +14,8 @@ namespace EmployeeManagement.Domain.Common
         public int Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime LastModifiedDate { get; set; }
-        public string LastModifiedBy { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
+        public string? LastModifiedBy { get; set; }
         public int RowStatus { get; set; }
 
         public virtual void SetRowStatus(EnumTypes values)

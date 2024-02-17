@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 {
-    public class DeleteEmployeeComandHandler : IRequestHandler<DeleteEmployeeComand>
+    public class DeleteEmployeeComandHandler : IRequestHandler<DeleteEmployeeComand, Unit>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
