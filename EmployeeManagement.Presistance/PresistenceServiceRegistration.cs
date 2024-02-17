@@ -16,7 +16,7 @@ namespace EmployeeManagement.Presistance
         private static string _connectionString;
         public static IServiceCollection ConfigurePresistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("EmployeeManagement");
+            _connectionString = configuration.GetConnectionString("EmployeeConnectionString");
             services.AddDbContext<EmployeeDbContext>(options => 
                 options.UseSqlServer(_connectionString));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
