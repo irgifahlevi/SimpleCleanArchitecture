@@ -42,12 +42,15 @@ namespace EmployeeManagement.Presistance.Repositories
 
         public async Task<T> Get(int id)
         {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id && entity.RowStatus == (short)EnumTypes.Active);
+            return await _dbContext.Set<T>()
+                           .AsNoTracking()
+                           .FirstOrDefaultAsync(entity => entity.Id == id && entity.RowStatus == (short)EnumTypes.Active);
         }
 
         public async Task<IReadOnlyList<T>> GetAll()
         {
             return await _dbContext.Set<T>()
+                           .AsNoTracking()
                            .Where(entity => entity.RowStatus == (short)EnumTypes.Active)
                            .ToListAsync();
         }
