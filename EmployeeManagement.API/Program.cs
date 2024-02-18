@@ -1,3 +1,4 @@
+using EmployeeManagement.API.Middleware;
 using EmployeeManagement.Application;
 using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Presistance;
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseCors("CorsPolicy");
 

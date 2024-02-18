@@ -29,7 +29,7 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Queries
             var employeDetail = await _employeeRepository.Get(request.Id);
             if (employeDetail == null)
             {
-                throw new NotFoundException(nameof(Employee), request.Id);
+                throw new NotFoundException("Please check your data request");
             }
             return _mapper.Map<EmployeeDto>(employeDetail);
         }

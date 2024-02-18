@@ -1,8 +1,10 @@
-﻿using EmployeeManagement.Application.DTOs.Employee;
+﻿using EmployeeManagement.API.Filters;
+using EmployeeManagement.Application.DTOs.Employee;
 using EmployeeManagement.Application.Features.Employees.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EmployeeManagement.API.Controllers
 {
@@ -11,6 +13,8 @@ namespace EmployeeManagement.API.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IMediator _mediator;
+
+        private Response response = new Response();
 
         public EmployeeController(IMediator mediator)
         {
@@ -22,17 +26,18 @@ namespace EmployeeManagement.API.Controllers
         public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployee()
         {
             var employee = await _mediator.Send(new GetEmployeeListRequest());
-
-            return Ok(employee);
+            response.Result = employee;
+            response.StatusCode = (int)HttpStatusCode.OK;
+            return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        //[Route("GetEmployeeId/{id}")]
+        [HttpGet("GetEmployeeId/{id}")]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeId(int id)
         {
             var employee = await _mediator.Send(new GetEmployeeDetailRequest { Id = id });
-
-            return Ok(employee);
+            response.Result = employee;
+            response.StatusCode = (int)HttpStatusCode.OK;
+            return Ok(response);
         }
     }
 }

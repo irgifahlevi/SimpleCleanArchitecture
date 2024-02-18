@@ -28,7 +28,7 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 
             if(employee == null) 
             {
-                throw new NotFoundException(nameof(Employee), request.Id);
+                throw new NotFoundException("Please check your data request");
             }
 
             await _employeeRepository.Delete(employee);

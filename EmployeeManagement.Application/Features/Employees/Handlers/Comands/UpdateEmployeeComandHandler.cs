@@ -37,7 +37,7 @@ namespace EmployeeManagement.Application.Features.Employees.Handlers.Comands
 
             if(employeeId == null)
             {
-                throw new NotFoundException(nameof(Employee), request.EmployeeDto.Id);
+                throw new NotFoundException("Please check your data request");
             }
 
             _mapper.Map(request.EmployeeDto, employeeId);
