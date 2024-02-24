@@ -45,8 +45,17 @@ namespace EmployeeManagement.API.Controllers
         public async Task<ActionResult> CreateEmployee([FromBody] CreateEmployeeDto employee)
         {
             var command = new CreateEmployeeComand { EmployeeDto = employee };
-            await _mediator.Send(command);
+            response.Result = await _mediator.Send(command);
             response.StatusCode = (int)HttpStatusCode.Created;
+            return Ok(response);
+        }
+
+        [HttpPut("UpdateEmployee/{id}")]
+        public async Task<ActionResult> UpdateEmployee( [FromBody] UpdateEmployeeDto updateEmployeeDto)
+        {
+            var command = new UpdateEmployeeComand { EmployeeDto = updateEmployeeDto };
+            await _mediator.Send(command);
+            response.StatusCode = (int)HttpStatusCode.NoContent;
             return Ok(response);
         }
     }

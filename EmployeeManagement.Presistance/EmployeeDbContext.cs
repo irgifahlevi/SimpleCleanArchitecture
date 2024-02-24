@@ -2,6 +2,7 @@
 using EmployeeManagement.Domain.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,12 @@ namespace EmployeeManagement.Presistance
 {
     public class EmployeeDbContext : DbContext
     {
-        public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options) : base(options)
-        { }
+        private readonly ILogger<EmployeeDbContext> _logger;
+
+        public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options, ILogger<EmployeeDbContext> logger) : base(options)
+        {
+            _logger = logger;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EmployeeDbContext).Assembly);
@@ -30,32 +35,28 @@ namespace EmployeeManagement.Presistance
                     if (entry.State == EntityState.Added)
                     {
                         entry.Entity.CreatedAt = DateTime.Now;
-                        entry.Entity.CreatedBy = "SYSTEM";
+                        entry.Entity.CreatedBy = Applications.System;
                         entry.Entity.RowStatus = (short)EnumTypes.Active;
                     }
                     else
                     {
                         entry.Entity.LastModifiedDate = DateTime.Now;
-                        entry.Entity.LastModifiedBy = "SYSTEM";
-                    }
-
-                    
+                        entry.Entity.LastModifiedBy = Applications.System;
+                    }                   
                 }
-
                 return base.SaveChangesAsync(cancellationToken);
             }
             catch (DbUpdateException ex)
             {
-                // Handle the specific exception when data would be truncated
+                // Handle the specific
                 var errorMessage = "Error saving changes: " + ex.Message;
                 if (ex.InnerException is SqlException sqlException && sqlException.Number == 8152)
                 {
                     errorMessage += "\nTruncated value: " + sqlException.Errors[0].Message;
                 }
 
-                // Log or handle the error appropriately
-                Console.WriteLine(errorMessage);
-                throw; // Rethrow the exception to maintain expected behavior
+                _logger.LogError(errorMessage);
+                throw; 
             }
         }
         

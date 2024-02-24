@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,17 @@ namespace EmployeeManagement.Presistance
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            var logger = loggerFactory.CreateLogger<EmployeeDbContext>();
+
             var builder = new DbContextOptionsBuilder<EmployeeDbContext>();
             var connectionString = configuration.GetConnectionString("EmployeeConnectionString");
             builder.UseSqlServer(connectionString);
-            return new EmployeeDbContext(builder.Options);
+            return new EmployeeDbContext(builder.Options, logger);
         }
     }
 }
