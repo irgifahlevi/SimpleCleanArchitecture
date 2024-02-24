@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.API.Filters;
 using EmployeeManagement.Application.DTOs.Employee;
+using EmployeeManagement.Application.Features.Employees.Requests.Comands;
 using EmployeeManagement.Application.Features.Employees.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,15 @@ namespace EmployeeManagement.API.Controllers
             var employee = await _mediator.Send(new GetEmployeeDetailRequest { Id = id });
             response.Result = employee;
             response.StatusCode = (int)HttpStatusCode.OK;
+            return Ok(response);
+        }
+
+        [HttpPost(nameof(CreateEmployee))]
+        public async Task<ActionResult> CreateEmployee([FromBody] CreateEmployeeDto employee)
+        {
+            var command = new CreateEmployeeComand { EmployeeDto = employee };
+            await _mediator.Send(command);
+            response.StatusCode = (int)HttpStatusCode.Created;
             return Ok(response);
         }
     }
