@@ -30,7 +30,7 @@ namespace EmployeeManagement.Presistance.Repositories
             {
                 baseEntity.SetRowStatus(EnumTypes.InActive);
             }
-            //_dbContext.Set<T>().Remove(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 

@@ -58,5 +58,14 @@ namespace EmployeeManagement.API.Controllers
             response.StatusCode = (int)HttpStatusCode.NoContent;
             return Ok(response);
         }
+
+        [HttpDelete("DeleteEmployee/{id}")]
+        public async Task<ActionResult> DeleteEmployee(int id)
+        {
+            var command = new DeleteEmployeeComand { Id = id };
+            response.Result = await _mediator.Send(command);
+            response.StatusCode = (int)HttpStatusCode.OK;
+            return Ok(response);
+        }
     }
 }
